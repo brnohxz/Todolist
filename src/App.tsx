@@ -33,7 +33,7 @@ export type TasksStateType = {
 function App() {
 
     useEffect(()=>{
-        dispatch(setTodosThunk)
+        dispatch(setTodosThunk())
     },[])
 
     const todolists = useSelector<AppRootStateType, Array<TodolistDomainType>>(state => state.todolists)

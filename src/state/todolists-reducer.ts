@@ -100,8 +100,10 @@ export type  SetTodosAC = ReturnType<typeof setTodosAC>
 
 //THUNK
 
-export const setTodosThunk = (dispatch:Dispatch) => {
-    return todolistsAPI.getTodolists().then((res)=>{
-        dispatch(setTodosAC(res.data))
-    })
+export const setTodosThunk = ()=>{
+    return (dispatch:Dispatch) => {
+        return todolistsAPI.getTodolists().then((res)=>{
+            dispatch(setTodosAC(res.data))
+        })
+    }
 }

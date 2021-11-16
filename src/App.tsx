@@ -6,13 +6,10 @@ import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import {Menu} from '@mui/icons-material';
-import { TaskType} from './api/todolists-api'
 import {TodolistsList} from "./components/TodolistsList";
 
 
-export type TasksStateType = {
-    [key: string]: Array<TaskType>
-}
+
 
 
 function App() {

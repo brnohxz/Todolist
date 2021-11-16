@@ -1,4 +1,3 @@
-import {TasksStateType} from '../App';
 import {
     addTodolistAC,
     removeTodolistAC, setTodosAC,
@@ -125,3 +124,7 @@ type ActionsType = ReturnType<typeof removeTaskAC>
     | ReturnType<typeof changeTaskStatusAC>
     | ReturnType<typeof changeTaskTitleAC>
     | ReturnType<typeof setTasksFromTodo>
+
+export type TasksStateType = {
+    [key: string]: Array<TaskType>
+}

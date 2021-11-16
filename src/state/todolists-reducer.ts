@@ -5,30 +5,17 @@ import {Dispatch} from "redux";
 export const todolistsReducer = (state: Array<TodolistDomainType> = [], action: ActionsType): Array<TodolistDomainType> => {
     switch (action.type) {
 
-        case "SET-TODOS": {
+        case "SET-TODOS":
             return action.todos.map(tl => ({...tl, filter: 'all'}))
-        }
-        case 'REMOVE-TODOLIST': {
+
+        case 'REMOVE-TODOLIST':
             return state.filter(tl => tl.id !== action.id)
-        }
-        case 'ADD-TODOLIST': {
-            let copyState = [...state]
-            return [{...action.todolist, filter: 'all'}, ...copyState]
-        }
-        case 'CHANGE-TODOLIST-TITLE': {
-            const todolist = state.find(tl => tl.id === action.id);
-            if (todolist) {
-                todolist.title = action.title;
-            }
-            return [...state]
-        }
-        case 'CHANGE-TODOLIST-FILTER': {
-            const todolist = state.find(tl => tl.id === action.id);
-            if (todolist) {
-                todolist.filter = action.filter;
-            }
-            return [...state]
-        }
+        case 'ADD-TODOLIST':
+            return [{...action.todolist, filter: 'all'}, ...state]
+        case 'CHANGE-TODOLIST-TITLE':
+            return state.map(t => t.id === action.id ? {...t, title: action.title} : t)
+        case 'CHANGE-TODOLIST-FILTER':
+            return state.map(t => t.id === action.id ? {...t, filter: action.filter} : t)
         default:
             return state;
     }
@@ -58,12 +45,12 @@ export const addTodoListOnServer = (title: string) => (dispatch: Dispatch) => {
     })
 }
 export const removeTodoFromServer = (todolistId: string) => (dispatch: Dispatch) => {
-    todolistsAPI.deleteTodolist(todolistId).then((res) => {
+    todolistsAPI.deleteTodolist(todolistId).then(() => {
         dispatch(removeTodolistAC(todolistId))
     })
 }
 export const changeTodolistTitleOnServer = (todolistId: string, title: string) => (dispatch: Dispatch) => {
-    todolistsAPI.updateTodolist(todolistId, title).then((res) => {
+    todolistsAPI.updateTodolist(todolistId, title).then(() => {
         dispatch(changeTodolistTitleAC(todolistId, title))
     })
 }

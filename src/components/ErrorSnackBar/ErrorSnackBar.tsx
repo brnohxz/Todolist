@@ -2,6 +2,8 @@ import * as React from 'react';
 import Stack from '@mui/material/Stack';
 import Snackbar from '@mui/material/Snackbar';
 import MuiAlert, {AlertProps} from '@mui/material/Alert';
+import {useSelector} from "react-redux";
+import {AppRootStateType} from "../../app/store";
 
 
 const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
@@ -13,19 +15,18 @@ const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
 
 export const ErrorSnackBar = () => {
 
-    const [open, setOpen] = React.useState(true)
-
+    const error = useSelector<AppRootStateType,string | null>(state => state.app.error)
     const handleClose = (event?: React.SyntheticEvent, reason?: string) => {
         if (reason === 'clickaway') {
             return
         }
-        setOpen(false)
     };
 
+
     return (<Stack spacing={2} sx={{width: '100%'}}>
-        <Snackbar anchorOrigin={{vertical: 'bottom', horizontal: 'center'}} open={open} autoHideDuration={6000}
+        <Snackbar anchorOrigin={{vertical: 'bottom', horizontal: 'center'}} open={!!error} autoHideDuration={6000}
                   onClose={handleClose}>
-            <Alert onClose={handleClose} severity="success" sx={{width: '100%'}} children={'This is a successmessage'}/>
+            <Alert onClose={handleClose} severity="success" sx={{width: '100%'}} children={error}/>
         </Snackbar>
     </Stack>)
 }

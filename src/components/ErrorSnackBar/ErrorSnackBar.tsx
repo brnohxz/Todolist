@@ -28,7 +28,7 @@ export const ErrorSnackBar = () => {
     return (<Stack spacing={2} sx={{width: '100%'}}>
         <Snackbar anchorOrigin={{vertical: 'bottom', horizontal: 'center'}} open={!!error} autoHideDuration={3000}
                   onClose={handleClose}>
-            <Alert onClose={handleClose} severity="success" sx={{width: '100%'}} children={error}/>
+            <Alert onClose={handleClose} severity="error" sx={{width: '100%'}} children={error}/>
         </Snackbar>
     </Stack>)
 }

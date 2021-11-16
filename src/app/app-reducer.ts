@@ -1,6 +1,6 @@
 const InitialState:InitialAppStateType = {
     status:'IDLE',
-    error:'error'
+    error:null
 }
 
 export const appReducer = (state:InitialAppStateType = InitialState, action:ActionType):InitialAppStateType => {

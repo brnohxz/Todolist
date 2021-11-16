@@ -9,12 +9,13 @@ import {Menu} from '@mui/icons-material';
 import {TodolistsList} from "../pages/Todolists/TodolistsList";
 import {LinearProgress} from "@mui/material";
 import {ErrorSnackBar} from "../components/ErrorSnackBar/ErrorSnackBar";
-
-
-
+import {useSelector} from "react-redux";
+import {AppRootStateType} from "./store";
+import {InitialAppStatuses} from "./app-reducer";
 
 
 function App() {
+    const status = useSelector<AppRootStateType, InitialAppStatuses>(state => state.app.status)
     return (
         <div className="App">
             <AppBar position="static">
@@ -26,7 +27,7 @@ function App() {
                         Todolist
                     </Typography>
                 </Toolbar>
-                <LinearProgress />
+                {status === 'loading' && <LinearProgress />}
             </AppBar>
             <ErrorSnackBar/>
             <Container fixed>

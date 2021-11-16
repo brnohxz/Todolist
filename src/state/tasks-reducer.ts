@@ -5,7 +5,7 @@ import {
 import {TaskStatuses, TaskType, todolistsAPI} from '../api/todolists-api'
 import {Dispatch} from "redux";
 import {AppRootStateType} from "../app/store";
-import {setError} from "../app/app-reducer";
+import {setError, setStatus} from "../app/app-reducer";
 
 export const tasksReducer = (state: TasksStateType = {}, action: ActionsType): TasksStateType => {
     switch (action.type) {
@@ -77,7 +77,11 @@ export const setTasksFromTodo = (tasks: Array<TaskType>, todolistID: string) => 
 
 //thunk
 export const getTasksFromServer = (todolistId: string) => (dispatch: Dispatch<ActionsType>) => {
-    todolistsAPI.getTasks(todolistId).then((res) => dispatch(setTasksFromTodo(res.data.items, todolistId)))
+    dispatch(setStatus('loading'))
+    todolistsAPI.getTasks(todolistId).then((res) => {
+        dispatch(setTasksFromTodo(res.data.items, todolistId))
+        dispatch(setStatus('IDLE'))
+    })
 }
 export const removeTaskFromServer = (id: string, todolistId: string) => (dispatch: Dispatch<ActionsType>) => {
     todolistsAPI.deleteTask(todolistId, id).then(() => dispatch(removeTaskAC(id, todolistId)))
@@ -135,6 +139,7 @@ type ActionsType = ReturnType<typeof removeTaskAC>
     | ReturnType<typeof changeTaskTitleAC>
     | ReturnType<typeof setTasksFromTodo>
     | ReturnType<typeof setError>
+    | ReturnType<typeof setStatus>
 
 export type TasksStateType = {
     [key: string]: Array<TaskType>

@@ -17,10 +17,9 @@ import {
     addTaskToServer,
     changeTaskStatusOnServer,
     changeTaskTitleOnServer,
-    removeTaskFromServer
+    removeTaskFromServer, TasksStateType
 } from "../state/tasks-reducer";
 import {TaskStatuses} from "../api/todolists-api";
-import {TasksStateType} from "../App";
 
 export const TodolistsList = () => {
 

@@ -7,6 +7,7 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import {Menu} from '@mui/icons-material';
 import {TodolistsList} from "./pages/Todolists/TodolistsList";
+import {LinearProgress} from "@mui/material";
 
 
 
@@ -24,6 +25,7 @@ function App() {
                         Todolist
                     </Typography>
                 </Toolbar>
+                <LinearProgress />
             </AppBar>
             <Container fixed>
                 <TodolistsList/>

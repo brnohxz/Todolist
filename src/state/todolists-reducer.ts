@@ -31,22 +31,22 @@ export const setTodosAC = (todos: Array<TodolistType>) =>
     ({type: 'SET-TODOS', todos} as const)
 
 //thunk
-export const setTodosThunk = () => (dispatch: Dispatch) => {
+export const setTodosThunk = () => (dispatch: Dispatch<ActionsType>) => {
     todolistsAPI.getTodolists().then((res) => {
         dispatch(setTodosAC(res.data))
     })
 }
-export const addTodoListOnServer = (title: string) => (dispatch: Dispatch) => {
+export const addTodoListOnServer = (title: string) => (dispatch: Dispatch<ActionsType>) => {
     todolistsAPI.createTodolist(title).then((res) => {
         dispatch(addTodolistAC(res.data.data.item))
     })
 }
-export const removeTodoFromServer = (todolistId: string) => (dispatch: Dispatch) => {
+export const removeTodoFromServer = (todolistId: string) => (dispatch: Dispatch<ActionsType>) => {
     todolistsAPI.deleteTodolist(todolistId).then(() => {
         dispatch(removeTodolistAC(todolistId))
     })
 }
-export const changeTodolistTitleOnServer = (todolistId: string, title: string) => (dispatch: Dispatch) => {
+export const changeTodolistTitleOnServer = (todolistId: string, title: string) => (dispatch: Dispatch<ActionsType>) => {
     todolistsAPI.updateTodolist(todolistId, title).then(() => {
         dispatch(changeTodolistTitleAC(todolistId, title))
     })

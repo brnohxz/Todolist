@@ -33,8 +33,7 @@ export const tasksReducer = (state: TasksStateType = {}, action: ActionsType): T
         }
         case 'CHANGE-TASK-TITLE': {
             let todolistTasks = state[action.todolistId];
-            todolistTasks
-                .map(t => t.id === action.taskId ? {...t, title: action.title} : t);
+            todolistTasks.map(t => t.id === action.taskId ? {...t, title: action.title} : t);
             state[action.todolistId] = todolistTasks;
             return ({...state});
         }
@@ -76,16 +75,16 @@ export const setTasksFromTodo = (tasks: Array<TaskType>, todolistID: string) => 
 
 
 //thunk
-export const getTasksFromServer = (todolistId: string) => (dispatch: Dispatch) => {
+export const getTasksFromServer = (todolistId: string) => (dispatch: Dispatch<ActionsType>) => {
     todolistsAPI.getTasks(todolistId).then((res) => dispatch(setTasksFromTodo(res.data.items, todolistId)))
 }
-export const removeTaskFromServer = (id: string, todolistId: string) => (dispatch: Dispatch) => {
+export const removeTaskFromServer = (id: string, todolistId: string) => (dispatch: Dispatch<ActionsType>) => {
     todolistsAPI.deleteTask(todolistId, id).then(() => dispatch(removeTaskAC(id, todolistId)))
 }
-export const addTaskToServer = (title: string, todolistId: string) => (dispatch: Dispatch) => {
+export const addTaskToServer = (title: string, todolistId: string) => (dispatch:  Dispatch<ActionsType>) => {
     todolistsAPI.createTask(todolistId, title).then((res) => dispatch(addTaskAC(res.data.data.item)))
 }
-export const changeTaskStatusOnServer = (taskId: string, todolistId: string, status: TaskStatuses) => (dispatch: Dispatch, getState: () => AppRootStateType) => {
+export const changeTaskStatusOnServer = (taskId: string, todolistId: string, status: TaskStatuses) => (dispatch:  Dispatch<ActionsType>, getState: () => AppRootStateType) => {
     const task = getState().tasks[todolistId].find(t => t.id === taskId)
     if (task) {
         todolistsAPI.updateTask(todolistId, taskId, {
@@ -100,7 +99,7 @@ export const changeTaskStatusOnServer = (taskId: string, todolistId: string, sta
         })
     }
 }
-export const changeTaskTitleOnServer = (todoID: string, taskID: string, title: string) => (dispatch: Dispatch, getState: () => AppRootStateType) => {
+export const changeTaskTitleOnServer = (todoID: string, taskID: string, title: string) => (dispatch:  Dispatch<ActionsType>, getState: () => AppRootStateType) => {
     const task = getState().tasks[todoID].find(t => t.id === taskID)
     if (task) {
         todolistsAPI.updateTask(todoID, taskID, {

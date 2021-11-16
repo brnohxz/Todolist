@@ -4,7 +4,7 @@ import {
 } from './todolists-reducer';
 import {TaskStatuses, TaskType, todolistsAPI} from '../api/todolists-api'
 import {Dispatch} from "redux";
-import {AppRootStateType} from "./store";
+import {AppRootStateType} from "../app/store";
 
 export const tasksReducer = (state: TasksStateType = {}, action: ActionsType): TasksStateType => {
     switch (action.type) {

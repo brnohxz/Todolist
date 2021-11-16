@@ -10,7 +10,7 @@ const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
 ) {
     return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
 });
-//error | warning | info | success
+
 export const ErrorSnackBar = () => {
 
     const [open, setOpen] = React.useState(true)
@@ -29,3 +29,5 @@ export const ErrorSnackBar = () => {
         </Snackbar>
     </Stack>)
 }
+
+//error | warning | info | success - types of alert

@@ -6,7 +6,7 @@ import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import {Menu} from '@mui/icons-material';
-import {TodolistsList} from "./components/TodolistsList";
+import {TodolistsList} from "./pages/Todolists/TodolistsList";
 
 
 

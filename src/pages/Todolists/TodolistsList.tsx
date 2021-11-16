@@ -1,8 +1,8 @@
 import React, {useCallback, useEffect} from 'react';
 import Grid from "@mui/material/Grid";
-import {AddItemForm} from "./AddItemForm";
+import {AddItemForm} from "../../components/AddItemForm";
 import Paper from "@mui/material/Paper";
-import {Todolist} from "../Todolist";
+import {Todolist} from "../../components/Todolist";
 import {
     addTodoListOnServer,
     changeTodolistFilterAC, changeTodolistTitleOnServer,
@@ -10,16 +10,16 @@ import {
     removeTodoFromServer,
     setTodosThunk,
     TodolistDomainType
-} from "../state/todolists-reducer";
+} from "../../state/todolists-reducer";
 import {useDispatch, useSelector} from "react-redux";
-import {AppRootStateType} from "../state/store";
+import {AppRootStateType} from "../../state/store";
 import {
     addTaskToServer,
     changeTaskStatusOnServer,
     changeTaskTitleOnServer,
     removeTaskFromServer, TasksStateType
-} from "../state/tasks-reducer";
-import {TaskStatuses} from "../api/todolists-api";
+} from "../../state/tasks-reducer";
+import {TaskStatuses} from "../../api/todolists-api";
 
 export const TodolistsList = () => {
 

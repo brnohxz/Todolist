@@ -8,6 +8,7 @@ import Container from '@mui/material/Container';
 import {Menu} from '@mui/icons-material';
 import {TodolistsList} from "./pages/Todolists/TodolistsList";
 import {LinearProgress} from "@mui/material";
+import {ErrorSnackBar} from "./components/ErrorSnackBar/ErrorSnackBar";
 
 
 
@@ -27,6 +28,7 @@ function App() {
                 </Toolbar>
                 <LinearProgress />
             </AppBar>
+            <ErrorSnackBar/>
             <Container fixed>
                 <TodolistsList/>
             </Container>

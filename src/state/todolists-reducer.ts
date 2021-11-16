@@ -4,10 +4,8 @@ import {Dispatch} from "redux";
 
 export const todolistsReducer = (state: Array<TodolistDomainType> = [], action: ActionsType): Array<TodolistDomainType> => {
     switch (action.type) {
-
         case "SET-TODOS":
             return action.todos.map(tl => ({...tl, filter: 'all'}))
-
         case 'REMOVE-TODOLIST':
             return state.filter(tl => tl.id !== action.id)
         case 'ADD-TODOLIST':

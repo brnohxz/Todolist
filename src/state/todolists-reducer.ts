@@ -36,7 +36,7 @@ export const setTodosThunk = () => (dispatch: Dispatch<ActionsType>) => {
     dispatch(setStatus('loading'))
     todolistsAPI.getTodolists().then((res) => {
         dispatch(setTodosAC(res.data))
-        dispatch(setStatus('IDLE'))
+        dispatch(setStatus('succeeded'))
     })
 }
 export const addTodoListOnServer = (title: string) => (dispatch: Dispatch<ActionsType>) => {

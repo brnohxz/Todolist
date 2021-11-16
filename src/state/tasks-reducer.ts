@@ -80,19 +80,27 @@ export const getTasksFromServer = (todolistId: string) => (dispatch: Dispatch<Ac
     dispatch(setStatus('loading'))
     todolistsAPI.getTasks(todolistId).then((res) => {
         dispatch(setTasksFromTodo(res.data.items, todolistId))
-        dispatch(setStatus('IDLE'))
+        dispatch(setStatus('succeeded'))
     })
 }
 export const removeTaskFromServer = (id: string, todolistId: string) => (dispatch: Dispatch<ActionsType>) => {
-    todolistsAPI.deleteTask(todolistId, id).then(() => dispatch(removeTaskAC(id, todolistId)))
+    dispatch(setStatus('loading'))
+    todolistsAPI.deleteTask(todolistId, id).then(() => {
+        dispatch(removeTaskAC(id, todolistId))
+        dispatch(setStatus('succeeded'))
+    })
 }
 export const addTaskToServer = (title: string, todolistId: string) => (dispatch: Dispatch<ActionsType>) => {
+    dispatch(setStatus('loading'))
     todolistsAPI.createTask(todolistId, title).then((res) => {
         if (res.data.resultCode === 0) {
             dispatch(addTaskAC(res.data.data.item))
+            dispatch(setStatus('succeeded'))
         } else {
             if (res.data.messages.length) {
                 dispatch(setError(res.data.messages[0]))
+            } else {
+                dispatch(setError('Some error occurred. Message me to solve this problem'))
             }
         }
     })
@@ -100,6 +108,7 @@ export const addTaskToServer = (title: string, todolistId: string) => (dispatch:
 export const changeTaskStatusOnServer = (taskId: string, todolistId: string, status: TaskStatuses) => (dispatch: Dispatch<ActionsType>, getState: () => AppRootStateType) => {
     const task = getState().tasks[todolistId].find(t => t.id === taskId)
     if (task) {
+        dispatch(setStatus('loading'))
         todolistsAPI.updateTask(todolistId, taskId, {
             title: task.title,
             description: task.description,
@@ -109,12 +118,14 @@ export const changeTaskStatusOnServer = (taskId: string, todolistId: string, sta
             status
         }).then((res) => {
             dispatch(changeTaskStatusAC(res.data.data.item.id, res.data.data.item.status, res.data.data.item.todoListId))
+            dispatch(setStatus('succeeded'))
         })
     }
 }
 export const changeTaskTitleOnServer = (todoID: string, taskID: string, title: string) => (dispatch: Dispatch<ActionsType>, getState: () => AppRootStateType) => {
     const task = getState().tasks[todoID].find(t => t.id === taskID)
     if (task) {
+        dispatch(setStatus('loading'))
         todolistsAPI.updateTask(todoID, taskID, {
             title,
             description: task.description,
@@ -124,6 +135,7 @@ export const changeTaskTitleOnServer = (todoID: string, taskID: string, title: s
             status: task.status
         }).then((res) => {
             dispatch(changeTaskTitleAC(res.data.data.item.id, res.data.data.item.title, res.data.data.item.todoListId))
+            dispatch(setStatus('succeeded'))
         })
     }
 }

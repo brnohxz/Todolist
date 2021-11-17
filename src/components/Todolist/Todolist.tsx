@@ -1,14 +1,14 @@
 import React, {useCallback, useEffect} from 'react'
-import {AddItemForm} from './AddItemForm'
-import {EditableSpan} from './EditableSpan'
+import {AddItemForm} from '../AddItemForm'
+import {EditableSpan} from '../EditableSpan'
 import IconButton from '@mui/material/IconButton';
 import Button from '@mui/material/Button';
 import { Delete } from '@mui/icons-material';
-import {Task} from './Task'
-import {TaskStatuses, TaskType} from '../api/todolists-api'
-import {FilterValuesType, TodolistDomainType} from '../state/todolists-reducer'
+import {Task} from '../Task'
+import {TaskStatuses, TaskType} from '../../api/todolists-api'
+import {FilterValuesType, TodolistDomainType} from '../../state/todolists-reducer'
 import {useDispatch} from "react-redux";
-import {getTasksFromServer} from "../state/tasks-reducer";
+import {getTasksFromServer} from "../../state/tasks-reducer";
 
 type PropsType = {
     todolist:TodolistDomainType,
@@ -56,11 +56,11 @@ export const Todolist = React.memo(function (props: PropsType) {
 
     return <div>
         <h3><EditableSpan value={props.todolist.title} onChange={changeTodolistTitle}/>
-            <IconButton onClick={removeTodolist}>
+            <IconButton onClick={removeTodolist} disabled={props.todolist.entityStatus === 'loading'}>
                 <Delete/>
             </IconButton>
         </h3>
-        <AddItemForm addItem={addTask}/>
+        <AddItemForm disabled={props.todolist.entityStatus === 'loading'} addItem={addTask}/>
         <div>
             {
                 tasksForTodolist.map(t => <Task key={t.id} task={t} todolistId={props.todolist.id}

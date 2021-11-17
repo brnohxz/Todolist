@@ -2,7 +2,7 @@ import React, {useCallback, useEffect} from 'react';
 import Grid from "@mui/material/Grid";
 import {AddItemForm} from "../../components/AddItemForm";
 import Paper from "@mui/material/Paper";
-import {Todolist} from "../../components/Todolist";
+import {Todolist} from "../../components/Todolist/Todolist";
 import {
     addTodoListOnServer,
     changeTodolistFilterAC, changeTodolistTitleOnServer,

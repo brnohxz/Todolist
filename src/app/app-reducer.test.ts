@@ -1,4 +1,4 @@
-import {appReducer, InitialAppStateType, setError, setStatus} from "./app-reducer";
+import {appReducer, InitialAppStateType, setAppError, setAppStatus} from "./app-reducer";
 
 let startState: InitialAppStateType;
 
@@ -11,11 +11,11 @@ beforeEach(() => {
 
 
 test('Check error message', () => {
-const endState = appReducer(startState,setError('404'))
+const endState = appReducer(startState,setAppError('404'))
     expect(endState.error).toBe('404')
 })
 
 test('Check app status', () => {
-    const endState = appReducer(startState,setStatus('loading'))
+    const endState = appReducer(startState,setAppStatus('loading'))
     expect(endState.status).toBe('loading')
 })

@@ -5,7 +5,7 @@ import {
 import {TaskStatuses, TaskType, todolistsAPI} from '../api/todolists-api'
 import {Dispatch} from "redux";
 import {AppRootStateType} from "../app/store";
-import {setError, setStatus} from "../app/app-reducer";
+import {setAppError, setAppStatus} from "../app/app-reducer";
 
 export const tasksReducer = (state: TasksStateType = {}, action: ActionsType): TasksStateType => {
     switch (action.type) {
@@ -77,37 +77,37 @@ export const setTasksFromTodo = (tasks: Array<TaskType>, todolistID: string) => 
 
 //thunk
 export const getTasksFromServer = (todolistId: string) => (dispatch: Dispatch<ActionsType>) => {
-    dispatch(setStatus('loading'))
+    dispatch(setAppStatus('loading'))
     todolistsAPI.getTasks(todolistId).then((res) => {
         dispatch(setTasksFromTodo(res.data.items, todolistId))
-        dispatch(setStatus('succeeded'))
+        dispatch(setAppStatus('succeeded'))
     })
 }
 export const removeTaskFromServer = (id: string, todolistId: string) => (dispatch: Dispatch<ActionsType>) => {
-    dispatch(setStatus('loading'))
+    dispatch(setAppStatus('loading'))
     todolistsAPI.deleteTask(todolistId, id).then(() => {
         dispatch(removeTaskAC(id, todolistId))
-        dispatch(setStatus('succeeded'))
+        dispatch(setAppStatus('succeeded'))
     })
 }
 export const addTaskToServer = (title: string, todolistId: string) => (dispatch: Dispatch<ActionsType>) => {
-    dispatch(setStatus('loading'))
+    dispatch(setAppStatus('loading'))
     todolistsAPI.createTask(todolistId, title).then((res) => {
         if (res.data.resultCode === 0) {
             dispatch(addTaskAC(res.data.data.item))
-            dispatch(setStatus('succeeded'))
+            dispatch(setAppStatus('succeeded'))
         } else {
             if (res.data.messages.length) {
-                dispatch(setError(res.data.messages[0]))
+                dispatch(setAppError(res.data.messages[0]))
             }
-            dispatch(setError('Some error occurred. Message me to solve this problem'))
+            dispatch(setAppError('Some error occurred. Message me to solve this problem'))
         }
     })
 }
 export const changeTaskStatusOnServer = (taskId: string, todolistId: string, status: TaskStatuses) => (dispatch: Dispatch<ActionsType>, getState: () => AppRootStateType) => {
     const task = getState().tasks[todolistId].find(t => t.id === taskId)
     if (task) {
-        dispatch(setStatus('loading'))
+        dispatch(setAppStatus('loading'))
         todolistsAPI.updateTask(todolistId, taskId, {
             title: task.title,
             description: task.description,
@@ -117,14 +117,14 @@ export const changeTaskStatusOnServer = (taskId: string, todolistId: string, sta
             status
         }).then((res) => {
             dispatch(changeTaskStatusAC(res.data.data.item.id, res.data.data.item.status, res.data.data.item.todoListId))
-            dispatch(setStatus('succeeded'))
+            dispatch(setAppStatus('succeeded'))
         })
     }
 }
 export const changeTaskTitleOnServer = (todoID: string, taskID: string, title: string) => (dispatch: Dispatch<ActionsType>, getState: () => AppRootStateType) => {
     const task = getState().tasks[todoID].find(t => t.id === taskID)
     if (task) {
-        dispatch(setStatus('loading'))
+        dispatch(setAppStatus('loading'))
         todolistsAPI.updateTask(todoID, taskID, {
             title,
             description: task.description,
@@ -134,7 +134,7 @@ export const changeTaskTitleOnServer = (todoID: string, taskID: string, title: s
             status: task.status
         }).then((res) => {
             dispatch(changeTaskTitleAC(res.data.data.item.id, res.data.data.item.title, res.data.data.item.todoListId))
-            dispatch(setStatus('succeeded'))
+            dispatch(setAppStatus('succeeded'))
         })
     }
 }
@@ -149,8 +149,8 @@ type ActionsType = ReturnType<typeof removeTaskAC>
     | ReturnType<typeof changeTaskStatusAC>
     | ReturnType<typeof changeTaskTitleAC>
     | ReturnType<typeof setTasksFromTodo>
-    | ReturnType<typeof setError>
-    | ReturnType<typeof setStatus>
+    | ReturnType<typeof setAppError>
+    | ReturnType<typeof setAppStatus>
 
 export type TasksStateType = {
     [key: string]: Array<TaskType>

@@ -99,9 +99,8 @@ export const addTaskToServer = (title: string, todolistId: string) => (dispatch:
         } else {
             if (res.data.messages.length) {
                 dispatch(setError(res.data.messages[0]))
-            } else {
-                dispatch(setError('Some error occurred. Message me to solve this problem'))
             }
+            dispatch(setError('Some error occurred. Message me to solve this problem'))
         }
     })
 }

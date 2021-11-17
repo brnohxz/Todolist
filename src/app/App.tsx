@@ -12,28 +12,36 @@ import {ErrorSnackBar} from "../components/ErrorSnackBar/ErrorSnackBar";
 import {useSelector} from "react-redux";
 import {AppRootStateType} from "./store";
 import {InitialAppStatuses} from "./app-reducer";
+import {BrowserRouter, Route} from "react-router-dom";
+import {Login} from "../components/Login/Login";
 
 
 function App() {
     const status = useSelector<AppRootStateType, InitialAppStatuses>(state => state.app.status)
-    return (
-        <div className="App">
-            <AppBar position="static">
-                <Toolbar>
-                    <IconButton edge="start" color="inherit" aria-label="menu">
-                        <Menu/>
-                    </IconButton>
-                    <Typography variant="h6">
-                        Todolist
-                    </Typography>
-                </Toolbar>
-                {status === 'loading' && <LinearProgress />}
-            </AppBar>
-            <ErrorSnackBar/>
-            <Container fixed>
-                <TodolistsList/>
-            </Container>
-        </div>
+    return (<BrowserRouter>
+            <div className="App">
+                <AppBar position="static">
+                    <Toolbar>
+                        <IconButton edge="start" color="inherit" aria-label="menu">
+                            <Menu/>
+                        </IconButton>
+                        <Typography variant="h6">
+                            Todolist
+                        </Typography>
+                    </Toolbar>
+                    {status === 'loading' && <LinearProgress/>}
+                </AppBar>
+                <ErrorSnackBar/>
+                <Container fixed>
+                    <Route exact path={'/'}>
+                        <TodolistsList/>
+                    </Route>
+                    <Route path={'/login'}>
+                        <Login/>
+                    </Route>
+                </Container>
+            </div>
+        </BrowserRouter>
     );
 }
 

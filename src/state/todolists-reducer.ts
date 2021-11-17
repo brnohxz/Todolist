@@ -48,12 +48,13 @@ export const setTodosThunk = () => (dispatch: Dispatch<ActionsType>) => {
     })
 }
 export const addTodoListOnServer = (title: string) => (dispatch: Dispatch<ActionsType>) => {
+    debugger
     dispatch(setAppStatus('loading'))
     todolistsAPI.createTodolist(title).then((res) => {
         dispatch(addTodolistAC(res.data.data.item))
         dispatch(setAppStatus('succeeded'))
     }).catch((error) => {
-        dispatch(setAppError(error.message))
+        dispatch(setAppError(error.message[0]))
         dispatch(setAppStatus('failed'))
     })
 }

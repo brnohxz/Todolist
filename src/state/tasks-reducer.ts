@@ -109,17 +109,20 @@ export const addTaskToServer = (title: string, todolistId: string) => (dispatch:
         if (res.data.resultCode === 0) {
             dispatch(addTaskAC(res.data.data.item))
             dispatch(setAppStatus('succeeded'))
+        } else if (res.data.resultCode === 1) {
+            dispatch(setAppError(res.data.messages[0]))
+            dispatch(setAppStatus('succeeded'))
         } else {
-            if (res.data.messages.length) {
-                dispatch(setAppError(res.data.messages[0]))
-            }
-            dispatch(setAppError('Some error occurred. Message me to solve this problem'))
-        }
-    })
-        .catch((error) => {
-            dispatch(setAppError(error.message))
-            dispatch(setAppStatus('failed'))
-        })
+        dispatch(setAppError('Some error occurred. Message me to solve this problem'))
+        dispatch(setAppStatus('succeeded'))
+    }
+}
+)
+.
+catch((error) => {
+    dispatch(setAppError(error.message))
+    dispatch(setAppStatus('failed'))
+})
 }
 export const changeTaskStatusOnServer = (taskId: string, todolistId: string, status: TaskStatuses) => (dispatch: Dispatch<ActionsType>, getState: () => AppRootStateType) => {
     const task = getState().tasks[todolistId].find(t => t.id === taskId)

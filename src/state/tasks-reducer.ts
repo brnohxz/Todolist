@@ -81,6 +81,9 @@ export const getTasksFromServer = (todolistId: string) => (dispatch: Dispatch<Ac
     todolistsAPI.getTasks(todolistId).then((res) => {
         dispatch(setTasksFromTodo(res.data.items, todolistId))
         dispatch(setAppStatus('succeeded'))
+    }).catch((error) => {
+        dispatch(setAppError(error.message))
+        dispatch(setAppStatus('failed'))
     })
 }
 export const removeTaskFromServer = (id: string, todolistId: string) => (dispatch: Dispatch<ActionsType>) => {
@@ -88,6 +91,9 @@ export const removeTaskFromServer = (id: string, todolistId: string) => (dispatc
     todolistsAPI.deleteTask(todolistId, id).then(() => {
         dispatch(removeTaskAC(id, todolistId))
         dispatch(setAppStatus('succeeded'))
+    }).catch((error) => {
+        dispatch(setAppError(error.message))
+        dispatch(setAppStatus('failed'))
     })
 }
 export const addTaskToServer = (title: string, todolistId: string) => (dispatch: Dispatch<ActionsType>) => {
@@ -103,6 +109,10 @@ export const addTaskToServer = (title: string, todolistId: string) => (dispatch:
             dispatch(setAppError('Some error occurred. Message me to solve this problem'))
         }
     })
+        .catch((error) => {
+            dispatch(setAppError(error.message))
+            dispatch(setAppStatus('failed'))
+        })
 }
 export const changeTaskStatusOnServer = (taskId: string, todolistId: string, status: TaskStatuses) => (dispatch: Dispatch<ActionsType>, getState: () => AppRootStateType) => {
     const task = getState().tasks[todolistId].find(t => t.id === taskId)
@@ -118,6 +128,9 @@ export const changeTaskStatusOnServer = (taskId: string, todolistId: string, sta
         }).then((res) => {
             dispatch(changeTaskStatusAC(res.data.data.item.id, res.data.data.item.status, res.data.data.item.todoListId))
             dispatch(setAppStatus('succeeded'))
+        }).catch((error) => {
+            dispatch(setAppError(error.message))
+            dispatch(setAppStatus('failed'))
         })
     }
 }
@@ -135,6 +148,9 @@ export const changeTaskTitleOnServer = (todoID: string, taskID: string, title: s
         }).then((res) => {
             dispatch(changeTaskTitleAC(res.data.data.item.id, res.data.data.item.title, res.data.data.item.todoListId))
             dispatch(setAppStatus('succeeded'))
+        }).catch((error) => {
+            dispatch(setAppError(error.message))
+            dispatch(setAppStatus('failed'))
         })
     }
 }

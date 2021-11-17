@@ -114,6 +114,7 @@ export const addTaskToServer = (title: string, todolistId: string) => (dispatch:
             dispatch(setAppError(res.data.messages[0]))
             dispatch(setAppStatus('failed'))
         }
+        dispatch(setAppError('Some error occurred. Message me to solve this problem'))
     }).catch((error) => {
         dispatch(setAppError(error.message))
         dispatch(setAppStatus('failed'))

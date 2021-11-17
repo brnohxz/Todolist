@@ -40,18 +40,24 @@ export const setTodosThunk = () => (dispatch: Dispatch<ActionsType>) => {
     })
 }
 export const addTodoListOnServer = (title: string) => (dispatch: Dispatch<ActionsType>) => {
+    dispatch(setStatus('loading'))
     todolistsAPI.createTodolist(title).then((res) => {
         dispatch(addTodolistAC(res.data.data.item))
+        dispatch(setStatus('succeeded'))
     })
 }
 export const removeTodoFromServer = (todolistId: string) => (dispatch: Dispatch<ActionsType>) => {
+    dispatch(setStatus('loading'))
     todolistsAPI.deleteTodolist(todolistId).then(() => {
         dispatch(removeTodolistAC(todolistId))
+        dispatch(setStatus('succeeded'))
     })
 }
 export const changeTodolistTitleOnServer = (todolistId: string, title: string) => (dispatch: Dispatch<ActionsType>) => {
+    dispatch(setStatus('loading'))
     todolistsAPI.updateTodolist(todolistId, title).then(() => {
         dispatch(changeTodolistTitleAC(todolistId, title))
+        dispatch(setStatus('succeeded'))
     })
 }
 
@@ -62,7 +68,7 @@ type ActionsType =
     | ReturnType<typeof changeTodolistTitleAC>
     | ReturnType<typeof changeTodolistFilterAC>
     | ReturnType<typeof setTodosAC>
-|ReturnType<typeof setStatus>
+    | ReturnType<typeof setStatus>
 
 export type FilterValuesType = 'all' | 'active' | 'completed';
 export type TodolistDomainType = TodolistType & {

@@ -88,9 +88,16 @@ export const getTasksFromServer = (todolistId: string) => (dispatch: Dispatch<Ac
 }
 export const removeTaskFromServer = (id: string, todolistId: string) => (dispatch: Dispatch<ActionsType>) => {
     dispatch(setAppStatus('loading'))
-    todolistsAPI.deleteTask(todolistId, id).then(() => {
-        dispatch(removeTaskAC(id, todolistId))
-        dispatch(setAppStatus('succeeded'))
+    todolistsAPI.deleteTask(todolistId, id).then((res) => {
+        if (res.data.resultCode === 0) {
+            dispatch(removeTaskAC(id, todolistId))
+            dispatch(setAppStatus('succeeded'))
+        } else {
+            if (res.data.messages.length) {
+                dispatch(setAppError(res.data.messages[0]))
+            }
+            dispatch(setAppError('Some error occurred. Message me to solve this problem'))
+        }
     }).catch((error) => {
         dispatch(setAppError(error.message))
         dispatch(setAppStatus('failed'))
@@ -126,8 +133,15 @@ export const changeTaskStatusOnServer = (taskId: string, todolistId: string, sta
             deadline: task.deadline,
             status
         }).then((res) => {
-            dispatch(changeTaskStatusAC(res.data.data.item.id, res.data.data.item.status, res.data.data.item.todoListId))
-            dispatch(setAppStatus('succeeded'))
+            if (res.data.resultCode === 0) {
+                dispatch(changeTaskStatusAC(res.data.data.item.id, res.data.data.item.status, res.data.data.item.todoListId))
+                dispatch(setAppStatus('succeeded'))
+            } else {
+                if (res.data.messages.length) {
+                    dispatch(setAppError(res.data.messages[0]))
+                }
+                dispatch(setAppError('Some error occurred. Message me to solve this problem'))
+            }
         }).catch((error) => {
             dispatch(setAppError(error.message))
             dispatch(setAppStatus('failed'))
@@ -146,8 +160,15 @@ export const changeTaskTitleOnServer = (todoID: string, taskID: string, title: s
             deadline: task.deadline,
             status: task.status
         }).then((res) => {
-            dispatch(changeTaskTitleAC(res.data.data.item.id, res.data.data.item.title, res.data.data.item.todoListId))
-            dispatch(setAppStatus('succeeded'))
+            if (res.data.resultCode === 0) {
+                dispatch(changeTaskTitleAC(res.data.data.item.id, res.data.data.item.title, res.data.data.item.todoListId))
+                dispatch(setAppStatus('succeeded'))
+            } else {
+                if (res.data.messages.length) {
+                    dispatch(setAppError(res.data.messages[0]))
+                }
+                dispatch(setAppError('Some error occurred. Message me to solve this problem'))
+            }
         }).catch((error) => {
             dispatch(setAppError(error.message))
             dispatch(setAppStatus('failed'))

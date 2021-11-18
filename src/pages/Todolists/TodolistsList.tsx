@@ -20,10 +20,14 @@ import {
     removeTaskFromServer, TasksStateType
 } from "../../state/tasks-reducer";
 import {TaskStatuses} from "../../api/todolists-api";
+import {Redirect} from "react-router-dom";
 
 export const TodolistsList = () => {
-
+    const isAuth = useSelector<AppRootStateType,boolean>(state=>state.auth.isAuth)
     useEffect(()=>{
+        if(!isAuth){
+            return
+        }
         dispatch(setTodosThunk())
     },[])
 
@@ -64,6 +68,9 @@ export const TodolistsList = () => {
         dispatch(addTodoListOnServer(title));
     }, [dispatch]);
 
+    if(!isAuth){
+        return <Redirect to={'/login'}/>
+    }
 
     return (
         <>

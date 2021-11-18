@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useEffect} from 'react'
 import './App.css';
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
@@ -9,15 +9,37 @@ import {Menu} from '@mui/icons-material';
 import {TodolistsList} from "../pages/Todolists/TodolistsList";
 import {LinearProgress} from "@mui/material";
 import {ErrorSnackBar} from "../components/ErrorSnackBar/ErrorSnackBar";
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {AppRootStateType} from "./store";
-import {InitialAppStatuses} from "./app-reducer";
+import {InitialAppStatuses, setAppInitializedChecker} from "./app-reducer";
 import {BrowserRouter, Route} from "react-router-dom";
 import {Login} from "../components/Login/Login";
 
 
 function App() {
+    const dispatch = useDispatch()
+    useEffect(()=>{
+        dispatch(setAppInitializedChecker())
+    },[])
     const status = useSelector<AppRootStateType, InitialAppStatuses>(state => state.app.status)
+    const init = useSelector<AppRootStateType, boolean>(state => state.app.initialized)
+    if (!init) {
+        return <div style={{
+            height: '100vh',
+            display: 'flex',
+            width: '100%',
+            justifyContent: 'center',
+            flexDirection:'column',
+            alignItems: 'center'
+        }}>
+            <Typography variant="h2" component="div" gutterBottom>
+                Todolist
+            </Typography>
+            <div style={{width:'30%'}}><LinearProgress color="inherit"/></div>
+        </div>
+    }
+
+
     return (<BrowserRouter>
             <div className="App">
                 <AppBar position="static">

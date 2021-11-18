@@ -8,8 +8,13 @@ import FormLabel from '@mui/material/FormLabel';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import {useFormik} from "formik";
+import {useDispatch, useSelector} from "react-redux";
+import {makeAuthThunk} from "./login-reducer";
+import {AppRootStateType} from "../../app/store";
 
 export const Login = () => {
+    const isAuth = useSelector<AppRootStateType,boolean>(state=>state.auth.isAuth)
+    const dispatch = useDispatch()
     const formik = useFormik({
         validate:(values)=>{
             if(values.email.length === 0){
@@ -25,7 +30,7 @@ export const Login = () => {
             rememberMe:false
         },
         onSubmit: values => {
-            alert(JSON.stringify(values));
+            dispatch(makeAuthThunk(values))
         },
     });
     return <Grid container justifyContent={'center'}>

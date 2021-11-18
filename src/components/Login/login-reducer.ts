@@ -31,6 +31,23 @@ export const makeAuthThunk = (payload: loginPayloadType) => (dispatch: Dispatch)
     })
 }
 
+export const makeLogOut = () => (dispatch:Dispatch) =>{
+    dispatch(setAppStatus('loading'))
+    authApi.logOut().then((res) => {
+
+        if (res.data.resultCode === 0) {
+            dispatch(makeAuth(false))
+            dispatch(setAppStatus('succeeded'))
+        } else {
+
+            serverErrorHandling(res.data, dispatch)
+        }
+    }).catch((error) => {
+
+        serverErrorNetworkHandling(error, dispatch)
+    })
+}
+
 //actions
 export const makeAuth = (isAuth: boolean) => {
     return {type: 'MAKE_AUTH', isAuth} as const

@@ -14,6 +14,7 @@ import {AppRootStateType} from "./store";
 import {InitialAppStatuses, setAppInitializedChecker} from "./app-reducer";
 import {BrowserRouter, Route} from "react-router-dom";
 import {Login} from "../components/Login/Login";
+import {makeLogOut} from "../components/Login/login-reducer";
 
 function App() {
     const dispatch = useDispatch()
@@ -23,6 +24,9 @@ function App() {
     const status = useSelector<AppRootStateType, InitialAppStatuses>(state => state.app.status)
     const isAuth = useSelector<AppRootStateType,boolean>(state=>state.auth.isAuth)
     const init = useSelector<AppRootStateType, boolean>(state => state.app.initialized)
+    const logOut = ()=>{
+        dispatch(makeLogOut())
+    }
     if (!init) {
         return <div style={{
             height: '100vh',
@@ -53,14 +57,14 @@ function App() {
                                 display: 'flex',
                                 alignItems: 'center'
                             }}>
-                                <IconButton edge="start" color="inherit" aria-label="menu">
+                                <IconButton  edge="start" color="inherit" aria-label="menu">
                                     <Menu/>
                                 </IconButton>
                                 <Typography variant="h6">
                                     Todolist
                                 </Typography>
                             </div>
-                            {isAuth && <Button color="inherit">Log Out</Button>}
+                            {isAuth && <Button onClick={logOut} color="inherit">Log Out</Button>}
                         </div>
                     </Toolbar>
                     {status === 'loading' && <LinearProgress/>}

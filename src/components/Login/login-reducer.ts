@@ -24,11 +24,11 @@ export const {makeAuth} = slice.actions
 
 //thunk
 export const makeAuthThunk = (payload: loginPayloadType) => (dispatch: Dispatch) => {
-    dispatch(setAppStatus('loading'))
+    dispatch(setAppStatus({status:'loading'}))
     authApi.login(payload).then((res) => {
         if (res.data.resultCode === 0) {
             dispatch(makeAuth({value:true}))
-            dispatch(setAppStatus('succeeded'))
+            dispatch(setAppStatus({status:'succeeded'}))
         } else {
             serverErrorHandling(res.data, dispatch)
         }
@@ -38,12 +38,12 @@ export const makeAuthThunk = (payload: loginPayloadType) => (dispatch: Dispatch)
 }
 
 export const makeLogOut = () => (dispatch:Dispatch) =>{
-    dispatch(setAppStatus('loading'))
+    dispatch(setAppStatus({status:'loading'}))
     authApi.logOut().then((res) => {
 
         if (res.data.resultCode === 0) {
             dispatch(makeAuth({value:false}))
-            dispatch(setAppStatus('succeeded'))
+            dispatch(setAppStatus({status:'succeeded'}))
         } else {
 
             serverErrorHandling(res.data, dispatch)

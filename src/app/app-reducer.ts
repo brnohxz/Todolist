@@ -32,7 +32,7 @@ export const setAppInitialized = (initialized: boolean) => {
 export const setAppInitializedChecker = () => (dispatch: Dispatch) => {
     authApi.checkAuth().then((res) => {
         if (res.data.resultCode === 0) {
-            dispatch(makeAuth(true))
+            dispatch(makeAuth({value:true}))
             dispatch(dispatch(setAppStatus('succeeded')))
         } else {
             serverErrorHandling(res.data, dispatch)

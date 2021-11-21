@@ -44,6 +44,7 @@ export const TodolistsList = () => {
     }, []);
 
     const changeStatus = useCallback(function (id: string, status: TaskStatuses, todolistId: string) {
+        debugger
         dispatch(changeTaskStatusOnServer(id, todolistId,status));
     }, []);
 
@@ -52,7 +53,7 @@ export const TodolistsList = () => {
     }, []);
 
     const changeFilter = useCallback(function (value: FilterValuesType, todolistId: string) {
-        const action = changeTodolistFilterAC(todolistId, value);
+        const action = changeTodolistFilterAC({id:todolistId, filter:value});
         dispatch(action);
     }, []);
 
